@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">labs</string>
-    <string name="hello_world_at1">Hello World! AT1</string>
+    <string name="hello_world_at1">Hello World!</string>
     <string name="welcome_to_page_2">welcome to page 2</string>
     <string name="logout">logout</string>
     <string name="at2">at2</string>
     <string name="alfredo_aguiar" translatable="false">alfredo aguiar</string>
+    <string name="note">note</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="back">Back</string>
 </resources>

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">labs</string>
-    <string name="hello_world_at1">Olá Mundo! AT1</string>
+    <string name="note">notas</string>
+    <string name="hello_world_at1">"Olá Mundo! "</string>
     <string name="welcome_to_page_2">Bem-vindo à página 2</string>
     <string name="logout">Sair</string>
     <string name="at2">at2</string>
+    <string name="save">salvar</string>
+    <string name="delete">apagar</string>
+    <string name="back">voltar</string>
 </resources>
