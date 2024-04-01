@@ -19,13 +19,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val buttonClick= findViewById<Button>(R.id.button)
-        buttonClick.setOnClickListener {
-            val intent = Intent(this, MainActivity2::class.java)
 
-            val toast = Toast.makeText(this, "Starting", Toast.LENGTH_SHORT)
-            toast.show()
-            startActivity(intent)
-        }
     }
 }
