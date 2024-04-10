@@ -1,5 +1,7 @@
 package com.example.labs.fragments.add
 
+import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,10 +15,15 @@ import androidx.navigation.fragment.findNavController
 import com.example.labs.R
 import com.example.labs.data.entities.Note
 import com.example.labs.data.vm.NoteViewModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class AddFragment : Fragment() {
     private lateinit var mNoteViewModel: NoteViewModel
+    private var selectedDate: Calendar = Calendar.getInstance()
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,22 +42,46 @@ class AddFragment : Fragment() {
             findNavController().navigate(R.id.action_addFragment_to_listFragment)
         }
 
+        val selectDateButton = view.findViewById<Button>(R.id.selectDate)
+        selectDateButton.setOnClickListener {
+            showDatePickerDialog()
+        }
+
         return view
+    }
+
+    private fun showDatePickerDialog() {
+        val datePicker = DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                selectedDate.set(Calendar.YEAR, year)
+                selectedDate.set(Calendar.MONTH, month)
+                selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            },
+            selectedDate.get(Calendar.YEAR),
+            selectedDate.get(Calendar.MONTH),
+            selectedDate.get(Calendar.DAY_OF_MONTH)
+        )
+        datePicker.show()
     }
 
     private fun addNote() {
         val noteText = view?.findViewById<EditText>(R.id.addNote)?.text.toString()
-
-        if(noteText.isEmpty()) {
-            Toast.makeText(view?.context, "Não pode uma nota vazia!", Toast.LENGTH_LONG).show()
+        if (noteText.isEmpty() || noteText.length < 5) {
+            Toast.makeText(requireContext(), "A nota deve ter pelo menos 5 caracteres.", Toast.LENGTH_LONG).show()
+            return
         }
-        else {
-            val note = Note(0, noteText)
-
-            mNoteViewModel.addNote(note)
-
-            Toast.makeText(requireContext(), "Gravado com sucesso!", Toast.LENGTH_LONG).show()
-            findNavController().navigate(R.id.action_addFragment_to_listFragment)
+        if (selectedDate.timeInMillis == 0L) {
+            Toast.makeText(requireContext(), "Selecione uma data.", Toast.LENGTH_LONG).show()
+            return
         }
+        val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedDate.time)
+
+
+        val note = Note(0, noteText, formattedDate)
+        mNoteViewModel.addNote(note)
+
+        Toast.makeText(requireContext(), "Nota adicionada com sucesso!", Toast.LENGTH_LONG).show()
+        findNavController().navigate(R.id.action_addFragment_to_listFragment)
     }
 }

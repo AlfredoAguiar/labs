@@ -32,7 +32,7 @@ class ListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // UserViewModel
-        mNoteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
+        mNoteViewModel = ViewModelProvider(this)[NoteViewModel::class.java]
         mNoteViewModel.readAllNotes.observe(viewLifecycleOwner, Observer { note ->
             adapter.setData(note)
         })
