@@ -71,17 +71,30 @@ class AddFragment : Fragment() {
             Toast.makeText(requireContext(), "A nota deve ter pelo menos 5 caracteres.", Toast.LENGTH_LONG).show()
             return
         }
-        if (selectedDate.timeInMillis == 0L) {
-            Toast.makeText(requireContext(), "Selecione uma data.", Toast.LENGTH_LONG).show()
+        if (selectedDate == null) {
+            Toast.makeText(requireContext(), "A data não pode ser nula", Toast.LENGTH_LONG).show()
             return
         }
-        val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedDate.time)
+
+        val currentDate = Calendar.getInstance()
+
+        if (currentDate.get(Calendar.YEAR) == selectedDate.get(Calendar.YEAR) &&
+            currentDate.get(Calendar.MONTH) == selectedDate.get(Calendar.MONTH) &&
+            currentDate.get(Calendar.DAY_OF_MONTH) == selectedDate.get(Calendar.DAY_OF_MONTH)
+        ) {
+            // Dates are the same
+            Toast.makeText(requireContext(), "A data não pode ser nula", Toast.LENGTH_LONG).show()
+        } else {
+            val formattedDate =
+                SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedDate.time)
 
 
-        val note = Note(0, noteText, formattedDate)
-        mNoteViewModel.addNote(note)
+            val note = Note(0, noteText, formattedDate)
+            mNoteViewModel.addNote(note)
 
-        Toast.makeText(requireContext(), "Nota adicionada com sucesso!", Toast.LENGTH_LONG).show()
-        findNavController().navigate(R.id.action_addFragment_to_listFragment)
+            Toast.makeText(requireContext(), "Nota adicionada com sucesso!", Toast.LENGTH_LONG)
+                .show()
+            findNavController().navigate(R.id.action_addFragment_to_listFragment)
+        }
     }
 }
